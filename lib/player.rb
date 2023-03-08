@@ -32,7 +32,7 @@ class Player
 
     @move =
       if player.health < 50
-        adjacent_food || nearby_food || adjacent_tail(player) || find_most_empty
+        nearest_food(max_distance: 2) || adjacent_tail(player) || find_most_empty
       else
         adjacent_tail(player) || find_most_empty
       end
@@ -72,8 +72,8 @@ class Player
     @adjacent_food = direction_to(nearest_path_to(board.food, max_distance: 1))
   end
 
-  def nearby_food
-    direction_to(nearest_path_to(board.food))
+  def nearest_food(max_distance: 10)
+    direction_to(shortest_path_to(board.food, max_distance: max_distance))
   end
 
   def nearest_path_to(locations, max_distance: MAX_PATH_DISTANCE)
